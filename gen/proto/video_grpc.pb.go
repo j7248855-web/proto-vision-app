@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.1
 // - protoc             v7.34.1
-// source: proto/video.proto
+// source: video.proto
 
 package media_pt
 
@@ -110,5 +110,5 @@ var MediaStream_ServiceDesc = grpc.ServiceDesc{
 			ClientStreams: true,
 		},
 	},
-	Metadata: "proto/video.proto",
+	Metadata: "video.proto",
 }

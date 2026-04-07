@@ -9,6 +9,12 @@ message VideoStream {
     uint32 timestamp = 3;
     bool is_keyframe = 4;
 }
+message VideoChunk {
+    bytes data = 1;
+    int32 nal_unit_type = 2;
+    int64 instruction = 3;
+    string camera_id = 4;
+}
 message Status {
     bool status = 1;
 }
