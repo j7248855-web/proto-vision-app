@@ -26,7 +26,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MediaStreamClient interface {
-	Stream(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[VideoStream, Status], error)
+	Stream(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[VideoChunk, Status], error)
 }
 
 type mediaStreamClient struct {
@@ -37,24 +37,24 @@ func NewMediaStreamClient(cc grpc.ClientConnInterface) MediaStreamClient {
 	return &mediaStreamClient{cc}
 }
 
-func (c *mediaStreamClient) Stream(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[VideoStream, Status], error) {
+func (c *mediaStreamClient) Stream(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[VideoChunk, Status], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	stream, err := c.cc.NewStream(ctx, &MediaStream_ServiceDesc.Streams[0], MediaStream_Stream_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &grpc.GenericClientStream[VideoStream, Status]{ClientStream: stream}
+	x := &grpc.GenericClientStream[VideoChunk, Status]{ClientStream: stream}
 	return x, nil
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type MediaStream_StreamClient = grpc.ClientStreamingClient[VideoStream, Status]
+type MediaStream_StreamClient = grpc.ClientStreamingClient[VideoChunk, Status]
 
 // MediaStreamServer is the server API for MediaStream service.
 // All implementations must embed UnimplementedMediaStreamServer
 // for forward compatibility.
 type MediaStreamServer interface {
-	Stream(grpc.ClientStreamingServer[VideoStream, Status]) error
+	Stream(grpc.ClientStreamingServer[VideoChunk, Status]) error
 	mustEmbedUnimplementedMediaStreamServer()
 }
 
@@ -65,7 +65,7 @@ type MediaStreamServer interface {
 // pointer dereference when methods are called.
 type UnimplementedMediaStreamServer struct{}
 
-func (UnimplementedMediaStreamServer) Stream(grpc.ClientStreamingServer[VideoStream, Status]) error {
+func (UnimplementedMediaStreamServer) Stream(grpc.ClientStreamingServer[VideoChunk, Status]) error {
 	return status.Error(codes.Unimplemented, "method Stream not implemented")
 }
 func (UnimplementedMediaStreamServer) mustEmbedUnimplementedMediaStreamServer() {}
@@ -90,11 +90,11 @@ func RegisterMediaStreamServer(s grpc.ServiceRegistrar, srv MediaStreamServer) {
 }
 
 func _MediaStream_Stream_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(MediaStreamServer).Stream(&grpc.GenericServerStream[VideoStream, Status]{ServerStream: stream})
+	return srv.(MediaStreamServer).Stream(&grpc.GenericServerStream[VideoChunk, Status]{ServerStream: stream})
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type MediaStream_StreamServer = grpc.ClientStreamingServer[VideoStream, Status]
+type MediaStream_StreamServer = grpc.ClientStreamingServer[VideoChunk, Status]
 
 // MediaStream_ServiceDesc is the grpc.ServiceDesc for MediaStream service.
 // It's only intended for direct use with grpc.RegisterService,

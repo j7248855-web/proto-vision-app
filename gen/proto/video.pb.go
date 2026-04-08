@@ -21,87 +21,20 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type VideoStream struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	CameraId      int32                  `protobuf:"varint,1,opt,name=camera_id,json=cameraId,proto3" json:"camera_id,omitempty"`
-	Data          []byte                 `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
-	Timestamp     uint32                 `protobuf:"varint,3,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
-	IsKeyframe    bool                   `protobuf:"varint,4,opt,name=is_keyframe,json=isKeyframe,proto3" json:"is_keyframe,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *VideoStream) Reset() {
-	*x = VideoStream{}
-	mi := &file_video_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *VideoStream) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*VideoStream) ProtoMessage() {}
-
-func (x *VideoStream) ProtoReflect() protoreflect.Message {
-	mi := &file_video_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use VideoStream.ProtoReflect.Descriptor instead.
-func (*VideoStream) Descriptor() ([]byte, []int) {
-	return file_video_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *VideoStream) GetCameraId() int32 {
-	if x != nil {
-		return x.CameraId
-	}
-	return 0
-}
-
-func (x *VideoStream) GetData() []byte {
-	if x != nil {
-		return x.Data
-	}
-	return nil
-}
-
-func (x *VideoStream) GetTimestamp() uint32 {
-	if x != nil {
-		return x.Timestamp
-	}
-	return 0
-}
-
-func (x *VideoStream) GetIsKeyframe() bool {
-	if x != nil {
-		return x.IsKeyframe
-	}
-	return false
-}
-
 type VideoChunk struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Data          []byte                 `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
 	NalUnitType   int32                  `protobuf:"varint,2,opt,name=nal_unit_type,json=nalUnitType,proto3" json:"nal_unit_type,omitempty"`
 	Instruction   int64                  `protobuf:"varint,3,opt,name=instruction,proto3" json:"instruction,omitempty"`
 	CameraId      string                 `protobuf:"bytes,4,opt,name=camera_id,json=cameraId,proto3" json:"camera_id,omitempty"`
+	Timestamp     uint32                 `protobuf:"varint,5,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *VideoChunk) Reset() {
 	*x = VideoChunk{}
-	mi := &file_video_proto_msgTypes[1]
+	mi := &file_video_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -113,7 +46,7 @@ func (x *VideoChunk) String() string {
 func (*VideoChunk) ProtoMessage() {}
 
 func (x *VideoChunk) ProtoReflect() protoreflect.Message {
-	mi := &file_video_proto_msgTypes[1]
+	mi := &file_video_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -126,7 +59,7 @@ func (x *VideoChunk) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VideoChunk.ProtoReflect.Descriptor instead.
 func (*VideoChunk) Descriptor() ([]byte, []int) {
-	return file_video_proto_rawDescGZIP(), []int{1}
+	return file_video_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *VideoChunk) GetData() []byte {
@@ -157,6 +90,13 @@ func (x *VideoChunk) GetCameraId() string {
 	return ""
 }
 
+func (x *VideoChunk) GetTimestamp() uint32 {
+	if x != nil {
+		return x.Timestamp
+	}
+	return 0
+}
+
 type Status struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Status        bool                   `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
@@ -166,7 +106,7 @@ type Status struct {
 
 func (x *Status) Reset() {
 	*x = Status{}
-	mi := &file_video_proto_msgTypes[2]
+	mi := &file_video_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -178,7 +118,7 @@ func (x *Status) String() string {
 func (*Status) ProtoMessage() {}
 
 func (x *Status) ProtoReflect() protoreflect.Message {
-	mi := &file_video_proto_msgTypes[2]
+	mi := &file_video_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -191,7 +131,7 @@ func (x *Status) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Status.ProtoReflect.Descriptor instead.
 func (*Status) Descriptor() ([]byte, []int) {
-	return file_video_proto_rawDescGZIP(), []int{2}
+	return file_video_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *Status) GetStatus() bool {
@@ -205,23 +145,18 @@ var File_video_proto protoreflect.FileDescriptor
 
 const file_video_proto_rawDesc = "" +
 	"\n" +
-	"\vvideo.proto\x12\x05media\"}\n" +
-	"\vVideoStream\x12\x1b\n" +
-	"\tcamera_id\x18\x01 \x01(\x05R\bcameraId\x12\x12\n" +
-	"\x04data\x18\x02 \x01(\fR\x04data\x12\x1c\n" +
-	"\ttimestamp\x18\x03 \x01(\rR\ttimestamp\x12\x1f\n" +
-	"\vis_keyframe\x18\x04 \x01(\bR\n" +
-	"isKeyframe\"\x83\x01\n" +
+	"\vvideo.proto\x12\x05media\"\xa1\x01\n" +
 	"\n" +
 	"VideoChunk\x12\x12\n" +
 	"\x04data\x18\x01 \x01(\fR\x04data\x12\"\n" +
 	"\rnal_unit_type\x18\x02 \x01(\x05R\vnalUnitType\x12 \n" +
 	"\vinstruction\x18\x03 \x01(\x03R\vinstruction\x12\x1b\n" +
-	"\tcamera_id\x18\x04 \x01(\tR\bcameraId\" \n" +
+	"\tcamera_id\x18\x04 \x01(\tR\bcameraId\x12\x1c\n" +
+	"\ttimestamp\x18\x05 \x01(\rR\ttimestamp\" \n" +
 	"\x06Status\x12\x16\n" +
-	"\x06status\x18\x01 \x01(\bR\x06status2<\n" +
-	"\vMediaStream\x12-\n" +
-	"\x06Stream\x12\x12.media.VideoStream\x1a\r.media.Status(\x01B\x16Z\x14./gen/proto;media_ptb\x06proto3"
+	"\x06status\x18\x01 \x01(\bR\x06status2;\n" +
+	"\vMediaStream\x12,\n" +
+	"\x06Stream\x12\x11.media.VideoChunk\x1a\r.media.Status(\x01B\x16Z\x14./gen/proto;media_ptb\x06proto3"
 
 var (
 	file_video_proto_rawDescOnce sync.Once
@@ -235,15 +170,14 @@ func file_video_proto_rawDescGZIP() []byte {
 	return file_video_proto_rawDescData
 }
 
-var file_video_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_video_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_video_proto_goTypes = []any{
-	(*VideoStream)(nil), // 0: media.VideoStream
-	(*VideoChunk)(nil),  // 1: media.VideoChunk
-	(*Status)(nil),      // 2: media.Status
+	(*VideoChunk)(nil), // 0: media.VideoChunk
+	(*Status)(nil),     // 1: media.Status
 }
 var file_video_proto_depIdxs = []int32{
-	0, // 0: media.MediaStream.Stream:input_type -> media.VideoStream
-	2, // 1: media.MediaStream.Stream:output_type -> media.Status
+	0, // 0: media.MediaStream.Stream:input_type -> media.VideoChunk
+	1, // 1: media.MediaStream.Stream:output_type -> media.Status
 	1, // [1:2] is the sub-list for method output_type
 	0, // [0:1] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -262,7 +196,7 @@ func file_video_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_video_proto_rawDesc), len(file_video_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
